@@ -20,6 +20,7 @@ function createWindow (){
         },
         parent: win,
         frame: false
+
     })
 
     win.loadFile('index.html')
