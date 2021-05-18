@@ -11,20 +11,7 @@ function createWindow (){
         }
     })
 
-    const popup = new BrowserWindow({
-        width: 100,
-        height: 200,
-        
-        webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
-        },
-        parent: win,
-        frame: false
-
-    })
-
     win.loadFile('index.html')
-    popup.loadFile('popup.html')
 }
 
 app.whenReady().then(() => {
