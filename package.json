@@ -11,10 +11,8 @@
   "repository": "https://github.com/SentimentalWoosh/BreezeApp",
   "keywords": [
     "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "Breeze",
+    "I dunno"
   ],
   "author": "GitHub",
   "license": "CC0-1.0",
@@ -23,6 +21,8 @@
     "nodemon": "^2.0.7"
   },
   "dependencies": {
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "command-line-args": "^5.1.1",
+    "command-line-usage": "^6.1.1"
   }
 }
