@@ -4,9 +4,11 @@
   "description": "Dab",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electron-forge start",
     "watch": "nodemon --exec electron .",
-    "debug": "electron --inspect-brk=5858 ."
+    "debug": "electron --inspect-brk=5858 .",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "repository": "https://github.com/SentimentalWoosh/BreezeApp",
   "keywords": [
@@ -17,12 +19,45 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.55",
+    "@electron-forge/maker-deb": "^6.0.0-beta.55",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.55",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.55",
+    "@electron-forge/maker-zip": "^6.0.0-beta.55",
     "electron": "^12.0.7",
     "nodemon": "^2.0.7"
   },
   "dependencies": {
     "colors": "^1.4.0",
     "command-line-args": "^5.1.1",
-    "command-line-usage": "^6.1.1"
+    "command-line-usage": "^6.1.1",
+    "electron-squirrel-startup": "^1.0.0"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "BreezeApp"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
