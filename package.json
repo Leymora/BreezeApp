@@ -4,7 +4,7 @@
   "description": "Dab",
   "main": "main.js",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "electron .",
     "watch": "nodemon --exec electron .",
     "debug": "electron --inspect-brk=5858 .",
     "package": "electron-forge package",
@@ -29,9 +29,9 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
-    "command-line-args": "^5.1.1",
-    "command-line-usage": "^6.1.1",
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "three": "^0.128.0",
+    "yargs": "^16.2.0"
   },
   "config": {
     "forge": {

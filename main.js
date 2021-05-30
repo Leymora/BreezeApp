@@ -1,95 +1,81 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron');
-const colors = require('colors');
-const path = require('path');
+const {app, BrowserWindow} = require("electron");
+const colors = require("colors");
+const path = require("path");
 
-//Command Line Arguments START --------------------------------------------------
-const commandLineArgs = require('command-line-args');
-const commandLineUsage = require('command-line-usage');
+// Command Line Argumnets Setup (CLI) ----------------------------
+var yargs = require("yargs")(process.argv.slice(2));
 
-const optionDefinitions = [
-  {
-    name: 'help',
-    alias: 'h',
-    type: Boolean,
-    description: 'Display this usage guide.'
+var yargOps = yargs.usage("Breeze App - Vilhelm Hansson 2021")
+.options
+({
+  "help": {
+    description: "Get epic help",
+    alias: "h",
   },
-  {
-    name: 'debug',
-    alias: 'd',
-    type: Boolean,
-    description: 'Enables debug mode'
+  "debug": {
+    description: "Enable debug mode",
+    boolean: true,
+    alias: "d"
   }
-]
-const options = commandLineArgs(optionDefinitions);
-
-const usage = commandLineUsage([
-  {
-    header: 'Breeze App - By Vilhelm Hansson - 2021'
-  },
-  {
-    header: 'Options',
-    optionList: optionDefinitions
-  },
-  {
-    content: 'Project home: {underline https://github.com/SentimentalWoosh/BreezeApp}'
-  }
-])
+}).argv;
+// Command Line Argumnets Setup (CLI) ----------------------------
 
 
-//Command Line Arguments END ----------------------------------------------------
+console.log(colors.rainbow("Starting Breeze..."));
 
 
-console.log(colors.rainbow('Starting Breeze...'));
-console.log(colors.green('Running with arguments:', options));
-
-function createWindow () {
+function createWindow () 
+{
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  const mainWindow = new BrowserWindow(
+    {
     width: 1200,
     height: 720,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
+    webPreferences: { nodeIntegration: true },
+    frame: false,
+    transparent: true,
+    show: false
   })
 
-  // and load the index.html of the app.
-  mainWindow.loadFile('index.html');
 
+  mainWindow.loadFile("index.html");
+  mainWindow.once("ready-to-show", mainWindow.show);
 
+  const wc = mainWindow.webContents;
 
-  // Open the DevTools.
-  if (options.debug)
+  wc.on("context-menu", (e, params) => 
   {
+    let selText = params.selectionText;
+    wc.executeJavaScript(`alert("Jeff!")`);
+  })
+
+  if (yargOps.debug)
     mainWindow.webContents.openDevTools();
-  }
-  if (options.help)
-  {
-    console.log(usage);
-  }
+  if (yargOps.help)
+    yargs.showHelp();
 
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
+
+app.whenReady().then(() => 
+{
   console.log(colors.cyan("App Ready!"));
+  console.log(app.getPath("userData"));
   createWindow();
   
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
+  app.on('activate', function () 
+  {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   })
+
 })
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+app.on("before-quit", () =>
+{
+  console.log(colors.cyan("App quitting..."));
+})
+
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit();
 })
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
